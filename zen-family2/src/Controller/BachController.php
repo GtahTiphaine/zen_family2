@@ -3,7 +3,10 @@ namespace App\Controller;
 
 
 use App\Entity\Bach;
+use App\Form\EmotionType;
+use App\Repository\BachRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -11,29 +14,36 @@ class BachController extends AbstractController
 {
 
     /**
-     * @param $emotion
-     * @return Response
-     * @Route("bach", name="app_bach")
+     * @Route("/", name="app_bach")
+     * @return Response A response instance
      */
-
-    public function index($emotion):Response
+    public function show(Request $request): Response
     {
+        $createB = new bach();
+        $form = $this->createForm(EmotionType::class, $createB);
+        $form->handleRequest($request);
 
-        $display = $emotion;
-        $emotion = $this->getDoctrine()
-            ->getRepository(Bach::class)
-            ->findBy($emotion);
 
-        if (!$emotion) {
-            throw $this->createNotFoundException(
-                'No product found for id '
+        if ($form->isSubmitted() && $form->isValid()) {
+            $emotion=$request->request->get('emotions');
+
+            if (!$emotion == null)  {
+                $this->getDoctrine()->getRepository(Bach::class)->findBy(
+                    [
+                        'emotions' => $emotion,
+                    ]
+                );
+            }
+            }
+
+            return $this->render(
+                'bach.html.twig',
+                [
+                    'form' => $form->createView(),
+
+                ]
             );
         }
 
-        return $this->render(
-            'bach.html.twig',
-            ['bachs' => $emotion]
-        );
 
-    }
 }
