@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+
+    <h1 class="text-center mt-5 mb-5">Je choisi mon émotion du moment: </h1>
+    {% for bach in bachs %}
+        <table class="table">
+        <tbody>
+        <tr>
+        <th>Emotions</th>
+            <label for="emotion_select"></label>
+            <select id="emotion_select"></select>
+             <option class="text-center" colspan="2"> {{ bach.emotion }} </option>
+                <option class="text-center" colspan="2"> {{ bach.positive }} </option>
+
+        </tbody>
+        </table>
+
+
+
+    {% else %}
+        Aucun article trouvé.
+    {% endfor %}
+
+
+
+
+{% endblock %}
