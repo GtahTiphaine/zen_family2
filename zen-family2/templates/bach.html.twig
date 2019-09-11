@@ -13,11 +13,10 @@
             </section>
 
         <section id="results">
-            {% if emotions is defined %}
-                {% for emotion in emotions %}
-                    <h2> {{ bach.emotion }}</h2>
-                    <p> {{ bach.positive }} {{ bach.negative }}</p>
-                {% endfor %}
+            {% if emotion is defined %}
+                    <h2> {{ emotion.name }}</h2>
+                    <h3> {{ emotion.emotion }}</h3>
+                    <p> {{ emotion.positive }} {{ emotion.negative }}</p>
             {% endif %}
 
         </section>

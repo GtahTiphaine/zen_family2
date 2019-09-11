@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller;
 
 
@@ -23,27 +24,19 @@ class BachController extends AbstractController
         $form = $this->createForm(EmotionType::class, $createB);
         $form->handleRequest($request);
 
-
         if ($form->isSubmitted() && $form->isValid()) {
-            $emotion=$request->request->get('emotions');
+            $emotion = $request->request->get('emotions');
 
-            if (!$emotion == null)  {
-                $this->getDoctrine()->getRepository(Bach::class)->findBy(
-                    [
-                        'emotions' => $emotion,
-                    ]
-                );
+            if (!$emotion == null) {
+                $emotions = $this->getDoctrine()->getRepository(Bach::class)->findBy($emotion);
             }
-            }
-
-            return $this->render(
-                'bach.html.twig',
-                [
-                    'form' => $form->createView(),
-
-                ]
-            );
         }
 
-
+        return $this->render(
+            'bach.html.twig',
+            [
+                'form' => $form->createView(),
+            ]
+        );
+    }
 }
